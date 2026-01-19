@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MealBridge</title>
+  <style>
+    :root {
+      --primary: #e63946;
+      --accent: #f1faee;
+      --text: #1d3557;
+      --bg: #f7f9fc; /* match site-wide grey */
+      --btn: #457b9d;
+      --btn-hover: #1d3557;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+    url('omgg/food-banner.webp');
+  background-size: cover;
+  background-position: center;
+
+  min-height: 50vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;        /* 👈 force text center */
+}
+
+    
+    
+
+.nav-links a {
+    color: #333;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #2e7d32; /* A nice green to match your theme */
+}
+
+/* Update your Hero section */
+
+
+.hero h1 {
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds depth to text */
+    margin-bottom: 10px;
+}
+
+    
+
+    header .content {
+  padding: 40px;
+  width: 100%;
+  max-width: 800px;
+
+  display: flex;             /* 👇 force true center */
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+    header .content h1 {
+      font-size: 3rem;
+      margin: 0 0 10px;
+      color: #fff;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+
+    header .content p {
+      font-size: 1.25rem;
+      color: rgba(255,255,255,0.95);
+      margin: 0 0 20px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 32px;
+      background-color: var(--bg);
+      position: sticky;
+      border-bottom: 1px solid #eee;
+    }
+
+    nav .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .logo-container {
+    width: 100px; /* Set the width of the container */
+    height: auto; /* Allow height to adjust automatically */
+    /* Add other styling like margins or padding if needed */
+}
+
+.logo-container img {
+    max-width: 100%; /* Ensure the image fits within its container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Helps with alignment issues */
+}
+
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .btn {
+      background-color: var(--btn);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover);
+    }
+
+    .section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .section p {
+      font-size: 1.1em;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #f8f9fa;
+      color: var(--text);
+      font-size: 0.9em;
+    }
+    /* Add this inside your <style> block */
+#profile-sidebar {
+    position: fixed; 
+    top: 0; 
+    right: -300px; /* This hides it to the right */
+    width: 280px; 
+    height: 100%; 
+    background: white; 
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1); 
+    transition: all 0.3s ease-in-out; 
+    z-index: 2000; 
+    padding: 30px; 
+    visibility: hidden; /* This prevents it from overlapping while hidden */
+}
+
+#profile-trigger {
+    display: none; /* Hidden by default until login check */
+    position: fixed; 
+    top: 15px; 
+    right: 20px; 
+    cursor: pointer; 
+    z-index: 1500;
+}
+  </style>
+</head>
+<body>
+<script src="navigation.js"></script>
+  <body>
+  <div id="profile-trigger" onclick="toggleSidebar()">
+    <div id="user-initial" style="width: 45px; height: 45px; background: #088f69; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+      ?
+    </div>
+  </div>
+
+  <div id="profile-sidebar">
+    <button onclick="toggleSidebar()" style="background: none; border: none; font-size: 28px; cursor: pointer; float: right;">&times;</button>
+    
+    <div style="text-align: center; margin-top: 40px;">
+      <div style="width: 80px; height: 80px; background: #f0f2f5; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #088f69; border: 3px solid #088f69;">👤</div>
+      <h3 id="sidebar-name" style="margin: 10px 0 5px;">User Name</h3>
+      <p id="sidebar-email" style="color: #6c757d; font-size: 14px;">email@example.com</p>
+      <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+      <button onclick="logout()" style="width: 100%; padding: 10px; background: #d90429; color: white; border: none; border-radius: 8px; cursor: pointer;">Log Out</button>
+    </div>
+  </div>
+  <nav>
+
+    <div class="logo-container">
+        <img src="assets/images/logo.png" alt="MealBridge Logo">
+    </div>
+
+    <ul>
+      
+      <li><a href="food.html">Available Foods</a></li>
+        <li><a href="donate.html">Food Donate</a></li>
+      
+      
+    </ul>
+  </nav>
+
+  <div id="profile-trigger" style="display: none; position: fixed; top: 20px; right: 20px; cursor: pointer; z-index: 1000;" onclick="toggleSidebar()">
+  <div style="width: 45px; height: 45px; background: #088f69; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" id="user-initial">
+    ?
+  </div>
+</div>
+
+<div id="profile-sidebar" style="position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.3s ease; z-index: 1001; padding: 30px; font-family: 'Plus Jakarta Sans', sans-serif;">
+  <button onclick="toggleSidebar()" style="background: none; border: none; font-size: 24px; cursor: pointer; float: right;">&times;</button>
+  
+  <div style="text-align: center; margin-top: 40px;">
+    <div style="width: 80px; height: 80px; background: #f0f2f5; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #088f69; border: 3px solid #088f69;">
+      👤
+    </div>
+    <h3 id="sidebar-name" style="margin: 10px 0 5px; color: #1d3557;">User Name</h3>
+    <p id="sidebar-email" style="color: #6c757d; font-size: 14px; margin-bottom: 30px;">user@example.com</p>
+    
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+    
+    <ul style="list-style: none; padding: 0; text-align: left;">
+      <li style="padding: 12px 0; border-bottom: 1px solid #fafafa; cursor: pointer; color: #2b2d42;">My Orders</li>
+      <li style="padding: 12px 0; border-bottom: 1px solid #fafafa; cursor: pointer; color: #2b2d42;">Settings</li>
+      <li onclick="logout()" style="padding: 12px 0; color: #d90429; cursor: pointer; font-weight: 600;">Log Out</li>
+    </ul>
+  </div>
+</div>
+  <header>
+    <div class="content">
+      <h1>Together Against Global Hunger</h1>
+      <p>Your Leftovers Can Make a Difference</p>
+
+      <a href="food.html" class="btn">View All Foods</a>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2>Join Our Mission</h2>
+    <p>
+      Join our mission to ensure that no one sleeps hungry. Together, we can turn compassion into action and build a world where every plate is full of hope, love, and kindness.
+    </p>
+    <a href="signup.html" class="btn">Sign Up</a>
+  </section>
+
+  <footer>
+    &copy; 2026 MealBridge. Share. Care. Nourish.
+  </footer>
+
+  <script>
+  window.onload = function() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const name = localStorage.getItem('userName');
+    const email = localStorage.getItem('userEmail');
+
+    if (isLoggedIn === 'true') {
+      // Show the profile circle trigger
+      document.getElementById('profile-trigger').style.display = 'block';
+      
+      // Update sidebar content
+      document.getElementById('sidebar-name').innerText = name;
+      document.getElementById('sidebar-email').innerText = email;
+      
+      // Set the initial in the circle (First letter of name)
+      document.getElementById('user-initial').innerText = name.charAt(0).toUpperCase();
+    }
+  };
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('profile-sidebar');
+    if (sidebar.style.right === "0px") {
+      sidebar.style.right = "-300px";
+    } else {
+      sidebar.style.right = "0px";
+    }
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = 'login.html'; // Or redirect to home after clear
+  }
+
+  // Runs as soon as the page loads
+  window.onload = function() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const name = localStorage.getItem('userName');
+    const email = localStorage.getItem('userEmail');
+
+    if (isLoggedIn === 'true') {
+      document.getElementById('profile-trigger').style.display = 'block';
+      document.getElementById('sidebar-name').innerText = name;
+      document.getElementById('sidebar-email').innerText = email;
+      document.getElementById('user-initial').innerText = name.charAt(0).toUpperCase();
+    }
+  };
+
+  // The function to slide the sidebar in and out
+  function toggleSidebar() {
+    const sidebar = document.getElementById('profile-sidebar');
+    if (sidebar.style.right === "0px") {
+      sidebar.style.right = "-300px";
+      setTimeout(() => { sidebar.style.visibility = "hidden"; }, 300);
+    } else {
+      sidebar.style.visibility = "visible";
+      sidebar.style.right = "0px";
+    }
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.reload(); 
+  }
+</script>
+</body>
+</html>
+
+
+
+
+
+

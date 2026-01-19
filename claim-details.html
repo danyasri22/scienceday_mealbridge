@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Complete Your Claim — MealBridge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-primary: #006d77;
+      --brand-secondary: #83c5be;
+      --brand-action: #e29578;
+      --bg: #f0f4f8;
+      --card-bg: #ffffff;
+    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); padding: 20px; color: #2f3e46; }
+    .container { max-width: 650px; margin: 20px auto; }
+    .card { background: var(--card-bg); padding: 35px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+    
+    /* Summary Box with ID */
+    .food-summary { background: #f0fdfa; border-radius: 20px; padding: 25px; margin-bottom: 30px; border: 1px solid var(--brand-secondary); position: relative; }
+    .donation-id-tag { font-family: monospace; font-weight: 800; color: var(--brand-action); font-size: 16px; display: block; margin-bottom: 5px; }
+    .food-summary h3 { margin: 0; color: var(--brand-primary); font-size: 22px; }
+    .food-summary small { color: #64748b; font-size: 14px; }
+    
+    h2 { color: var(--brand-primary); font-weight: 800; margin-bottom: 10px; }
+    label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 8px; color: var(--brand-primary); }
+    
+    input, select, textarea { 
+      width: 100%; padding: 14px; margin-bottom: 20px; border: 2px solid #e2e8f0; 
+      border-radius: 12px; font-family: inherit; box-sizing: border-box; transition: 0.3s;
+    }
+    input:focus, select:focus { border-color: var(--brand-secondary); outline: none; background: #fff; }
+    
+    .btn-confirm { background: var(--brand-action); color: white; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s; }
+    .btn-confirm:hover { background: #d07a5c; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 149, 120, 0.2); }
+
+    /* Success State */
+    .success-box { display: none; text-align: center; animation: fadeIn 0.5s ease; }
+    .contact-card { background: #f8fafc; border: 2px dashed var(--brand-primary); padding: 25px; border-radius: 20px; margin-top: 25px; text-align: left; }
+    .res-val { color: var(--brand-primary); font-weight: 600; }
+    .call-btn { display: block; background: var(--brand-primary); color: white; text-align: center; padding: 16px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-top: 15px; transition: 0.3s; }
+    .call-btn:hover { background: #005a63; transform: scale(1.02); }
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+<script src="navigation.js"></script>
+<div class="container">
+  <div id="claimFormContainer" class="card">
+    <h2>Claimer Verification</h2>
+    <p style="color: #64748b; margin-bottom: 25px;">Provide your details to unlock the donor's contact and address.</p>
+
+    <div class="food-summary">
+        <span class="donation-id-tag" id="displayId">#PS-0000</span>
+        <h3 id="targetFood">Food Name</h3>
+        <small id="targetArea">Location Landmark</small>
+    </div>
+
+    <form id="detailsForm">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div>
+          <label>Claimer/Rep Name</label>
+          <input type="text" id="c-name" placeholder="Your full name" required>
+        </div>
+        <div>
+          <label>Organization Type</label>
+          <select id="c-type" required>
+            <option value="NGO">Registered NGO</option>
+            <option value="Student">Student Group</option>
+            <option value="Community">Community Volunteer</option>
+            <option value="Individual">Individual in Need</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Your Contact Phone Number</label>
+      <input type="tel" id="c-phone" placeholder="e.g. +91 98765 43210" required>
+
+      <label>Number of People to be Fed</label>
+      <input type="number" id="c-count" placeholder="How many servings do you need?" required>
+
+      <button type="submit" class="btn-confirm">Confirm Claim & Reveal Contact</button>
+    </form>
+  </div>
+
+  <div id="successBox" class="card success-box">
+    <div style="font-size: 50px; margin-bottom: 10px;">🎉</div>
+    <h2 style="color: #059669;">Claim Confirmed!</h2>
+    <p style="color: #64748b;">Please contact the donor immediately to coordinate pickup.</p>
+
+    <div class="contact-card">
+        <p style="margin-bottom: 12px;"><strong>Donation ID:</strong> <span class="res-val" id="res-id-final">...</span></p>
+        <p style="margin-bottom: 12px;"><strong>Donor Name:</strong> <span class="res-val" id="res-donor">...</span></p>
+        <p style="margin-bottom: 12px;"><strong>Pickup Address:</strong> <br><span class="res-val" id="res-address">...</span></p>
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
+        <p><strong>Donor Phone:</strong> <br>
+           <span id="res-phone" style="font-size: 22px; color: var(--brand-primary); font-weight: 800;">...</span>
+        </p>
+        <a href="" id="res-call" class="call-btn">📞 Call Donor Now</a>
+    </div>
+
+    <button onclick="window.location.href='food.html'" style="margin-top: 25px; background: none; border: none; color: #64748b; font-weight: 700; cursor: pointer; text-decoration: underline;">Return to Listings</button>
+  </div>
+</div>
+
+<script>
+
+  // 1. Get Data from URL and LocalStorage
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id'); // This is the index (e.g., 0, 1, 2)
+  let donations = JSON.parse(localStorage.getItem('MealBridgeDonations') || '[]');
+  
+  // Important: Use the index 'id' to get the specific item
+  const item = donations[id];
+
+  if (!item) {
+    alert("Listing not found.");
+    window.location.href = 'food.html'; // Ensure this matches your table filename
+  } else {
+    document.getElementById('displayId').innerText = item.donationId || "#PS-0000";
+    document.getElementById('targetFood').innerText = item.foodItem;
+    document.getElementById('targetArea').innerText = item.area;
+  }
+
+  // 2. Form Submission
+  document.getElementById('detailsForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // UPDATE THE ARRAY: Change status to 'claimed' for this specific index
+    donations[id].status = 'claimed'; 
+    donations[id].claimerName = document.getElementById('c-name').value;
+    donations[id].claimerPhone = document.getElementById('c-phone').value;
+
+    // SAVE BACK TO LOCALSTORAGE
+    localStorage.setItem('MealBridgeDonations', JSON.stringify(donations));
+
+    // Show Success UI and fill donor details
+    document.getElementById('res-id-final').innerText = item.donationId;
+    document.getElementById('res-donor').innerText = item.donorName;
+    document.getElementById('res-address').innerText = item.area;
+    document.getElementById('res-phone').innerText = item.phone;
+    document.getElementById('res-call').href = "tel:" + item.phone;
+
+    document.getElementById('claimFormContainer').style.display = 'none';
+    document.getElementById('successBox').style.display = 'block';
+  });
+
+  // 3. The Return Function (Ensure filename is correct)
+  function goBackToList() {
+      window.location.href = 'food.html'; 
+  }
+</script>
+
+</body>
+</html>

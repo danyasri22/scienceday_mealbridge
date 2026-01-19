@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Donate Food — MealBridge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { 
+      --brand-primary: #006d77; 
+      --brand-secondary: #83c5be; 
+      --brand-accent: #ffddd2; 
+      --brand-action: #e29578; 
+      --text-dark: #2f3e46; 
+      --text-light: #6d6d6d; 
+    }
+    
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background-color: #f0f4f8;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(131, 197, 190, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(226, 149, 120, 0.1) 0px, transparent 50%);
+      margin: 0; padding: 20px; color: var(--text-dark); min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .wrapper { 
+      max-width: 1100px; width: 100%; margin: 20px auto;
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 30px; align-items: start; 
+    }
+
+    .card { 
+      background: rgba(255, 255, 255, 0.95); padding: 35px; border-radius: 30px; 
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.08); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    h2 { font-size: 28px; color: var(--brand-primary); margin: 0 0 10px 0; font-weight: 800; }
+    .muted { color: var(--text-light); margin-bottom: 30px; font-size: 15px; }
+    .row { display: grid; gap: 20px; margin-bottom: 20px; }
+    .row.two { grid-template-columns: 1fr 1fr; }
+    
+    label { font-size: 13px; font-weight: 700; color: var(--brand-primary); display: block; margin-bottom: 8px; }
+    
+    input, select, textarea { 
+      width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; 
+      border-radius: 12px; font-family: inherit; font-size: 14px;
+      background: #fff; transition: all 0.3s ease; box-sizing: border-box;
+    }
+    input:focus, textarea:focus, select:focus { 
+      border-color: var(--brand-secondary); outline: none; 
+      box-shadow: 0 0 0 4px rgba(131, 197, 190, 0.2); transform: translateY(-2px); 
+    }
+
+    .actions { display: flex; gap: 15px; margin-top: 30px; }
+    .btn-main { background: var(--brand-action); color: white; padding: 16px; border: none; border-radius: 12px; font-weight: 700; flex: 2; cursor: pointer; transition: 0.3s; }
+    .btn-main:hover { background: #cd7b5f; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(226, 149, 120, 0.3); }
+    .btn-sub { background: #f1f5f9; color: var(--text-light); border: none; border-radius: 12px; flex: 1; cursor: pointer; font-weight: 600; }
+
+    /* Preview Logic */
+    .preview-container { position: sticky; top: 20px; }
+    .preview-label { font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--brand-action); margin-bottom: 10px; display: block; text-align: center; }
+    
+    .live-card {
+      background: white; border-radius: 20px; overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.07); border: 1px solid #e2e8f0;
+    }
+    .live-img-box { width: 100%; height: 180px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .live-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .live-header { background: var(--brand-primary); padding: 15px; color: white; }
+    .live-header span { font-size: 10px; text-transform: uppercase; opacity: 0.8; font-weight: 700; }
+    .live-header h3 { margin: 5px 0 0 0; font-size: 18px; }
+    
+    .live-body { padding: 20px; }
+    .live-item { margin-bottom: 8px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+    .live-item strong { color: var(--brand-primary); width: 85px; font-size: 11px; flex-shrink: 0; }
+    
+    .id-tag { background: #ffddd2; color: #e29578; padding: 2px 8px; border-radius: 5px; font-family: monospace; font-weight: bold; font-size: 12px; }
+    .live-notes { font-size: 12px; font-style: italic; color: #64748b; background: #f8fafc; padding: 10px; border-radius: 8px; margin-top: 10px; border-left: 3px solid var(--brand-secondary); }
+
+    @media(max-width: 900px) {
+      .wrapper { grid-template-columns: 1fr; }
+      .preview-container { display: none; }
+    }
+
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-btn {
+    background: #088f69;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+  </style>
+</head>
+<body>
+  <script src="navigation.js"></script>
+  <div class="wrapper">
+    <section class="card">
+      <h2>Log surplus food</h2>
+      <p class="muted">A unique ID will be auto-generated for tracking and coordination.</p>
+      
+      <form id="donationForm">
+        <div class="row two">
+          <div>
+            <label>Donor Name</label>
+            <input type="text" id="in-name" placeholder="e.g. Anand Bhavan" oninput="updatePreview()" required>
+          </div>
+          <div>
+            <label>Donor Type</label>
+            <select id="in-type" onchange="updatePreview()" required>
+              <option value="Restaurant">Restaurant</option>
+              <option value="Home">Home / Individual</option>
+              <option value="Catering">Catering / Event</option>
+              <option value="NGO">NGO / Community</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row two">
+          <div>
+            <label>Food Item</label>
+            <input type="text" id="in-food" placeholder="e.g. Veg Biryani" oninput="updatePreview()" required>
+          </div>
+          <div>
+            <label>Phone Number</label>
+            <input type="tel" id="in-phone" placeholder="e.g. +91 98765 43210" oninput="updatePreview()" required>
+          </div>
+        </div>
+
+        <div class="row two">
+          <div>
+            <label>Quantity (Servings)</label>
+            <input type="number" id="in-qty" placeholder="20" oninput="updatePreview()" required>
+          </div>
+          <div>
+            <label>Pickup Address</label>
+            <input type="text" id="in-area" placeholder="Full address or landmark" oninput="updatePreview()" required>
+          </div>
+        </div>
+
+        <div class="row two">
+          <div>
+            <label>Available Until</label>
+            <input type="datetime-local" id="readyUntil" oninput="updatePreview()" required>
+          </div>
+          <div>
+            <label>Food Image</label>
+            <input type="file" id="in-img" accept="image/*" onchange="previewImage(this)">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Additional Notes</label>
+            <textarea id="in-notes" rows="3" placeholder="e.g. Vegetarian , please bring containers..." oninput="updatePreview()"></textarea>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-main" id="submitBtn">Publish Donation</button>
+          <button type="button" class="btn-sub" onclick="resetAll()">Clear</button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="preview-container">
+      <span class="preview-label">Live Preview</span>
+      <div class="live-card">
+        <div class="live-img-box" id="pv-img-container">
+            <span style="color:#cbd5e1; font-size: 12px;">No Image Uploaded</span>
+        </div>
+        <div class="live-header">
+          <span id="pv-donor-type">RESTAURANT</span>
+          <h3 id="pv-food">Food Item Name</h3>
+        </div>
+        <div class="live-body">
+          <div class="live-item"><strong>Donor:</strong> <span id="pv-donor">---</span></div>
+          <div class="live-item"><strong>ID:</strong> <span class="id-tag">#PS-AUTO</span></div>
+          <div class="live-item"><strong>Servings:</strong> <span id="pv-qty">0</span> people</div>
+          <div class="live-item"><strong>Address:</strong> <span id="pv-area">---</span></div>
+          <div id="pv-notes" class="live-notes">No special notes provided.</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+<div id="successModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="success-icon">Checkmark</div>
+        <h2>Donation Posted!</h2>
+        <p>Thank you for helping reduce food waste. Your listing is now live.</p>
+        <button onclick="closeModal()" class="modal-btn">View Listings</button>
+    </div>
+</div>
+
+  <script>
+    let currentImageData = ""; 
+
+    function updatePreview() {
+        document.getElementById('pv-donor').innerText = document.getElementById('in-name').value || "---";
+        document.getElementById('pv-donor-type').innerText = document.getElementById('in-type').value.toUpperCase();
+        document.getElementById('pv-food').innerText = document.getElementById('in-food').value || "Food Item Name";
+        document.getElementById('pv-qty').innerText = document.getElementById('in-qty').value || "0";
+        document.getElementById('pv-area').innerText = document.getElementById('in-area').value || "---";
+        document.getElementById('pv-notes').innerText = document.getElementById('in-notes').value || "No special notes provided.";
+    }
+
+    function previewImage(input) {
+        const container = document.getElementById('pv-img-container');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                container.innerHTML = `<img src="${e.target.result}" alt="Food Preview">`;
+                currentImageData = e.target.result; 
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function resetAll() {
+        if(confirm('Clear all fields?')) {
+            document.getElementById('donationForm').reset();
+            document.getElementById('pv-img-container').innerHTML = '<span style="color:#cbd5e1; font-size: 12px;">No Image Uploaded</span>';
+            currentImageData = "";
+            updatePreview();
+        }
+    }
+
+    document.getElementById('donationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Generate Unique ID
+        const uniqueId = "PS-" + Math.floor(1000 + Math.random() * 9000);
+        
+        // Load existing data
+        let donations = JSON.parse(localStorage.getItem('MealBridgeDonations') || '[]');
+
+        // Construct Data Object
+        const newDonation = {
+            donationId: uniqueId,
+            donorName: document.getElementById('in-name').value,
+            donorType: document.getElementById('in-type').value,
+            foodItem: document.getElementById('in-food').value,
+            phone: document.getElementById('in-phone').value,
+            quantity: document.getElementById('in-qty').value,
+            area: document.getElementById('in-area').value,
+            readyUntil: document.getElementById('readyUntil').value || "Not set",
+            notes: document.getElementById('in-notes').value,
+            image: currentImageData,
+            status: 'open',
+            timestamp: new Date().getTime()
+        };
+
+        // Save and Redirect
+        donations.push(newDonation);
+        localStorage.setItem('MealBridgeDonations', JSON.stringify(donations));
+
+        alert("Food Logged Successfully! ID: " + uniqueId);
+        window.location.href = 'food.html'; 
+    });
+
+
+
+
+
+</script>
+</body>
+</html>  

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up — PlateShare</title>
+  <style>
+    
+/* Importing a modern sans-serif font */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+body { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); 
+    margin: 0; 
+    padding: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container { 
+    max-width: 400px; 
+    width: 100%;
+    background: #ffffff; 
+    padding: 40px; 
+    border-radius: 20px; 
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); 
+}
+
+h2 { 
+    text-align: center; 
+    color: #088f69; /* A deeper, more vibrant red */
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+    margin-bottom: 32px;
+}
+
+.input-group { 
+    margin-bottom: 20px; 
+}
+
+label { 
+    display: block; 
+    margin-bottom: 8px; 
+    color: #2b2d42; 
+    font-weight: 600;
+    font-size: 14px;
+}
+
+input { 
+    width: 100%; 
+    padding: 12px 16px; 
+    border: 2px solid #edf2f4; 
+    border-radius: 12px; 
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    background-color: #f8f9fa;
+}
+
+input::placeholder {
+    color: #adb5bd;
+}
+
+input:focus {
+    outline: none;
+    border-color: #457b9d;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(69, 123, 157, 0.15);
+}
+
+.btn { 
+    background: #1d3557; 
+    color: white; 
+    padding: 14px; 
+    border: none; 
+    border-radius: 12px; 
+    width: 100%; 
+    font-size: 16px; 
+    font-weight: 600;
+    cursor: pointer; 
+    margin-top: 10px;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover { 
+    background: #457b9d; 
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.nav { 
+    text-align: center; 
+    margin-top: 24px; 
+    font-size: 14px;
+    color: #1e4589;
+}
+
+.nav a { 
+    color: #156ca2; 
+    text-decoration: none; 
+    font-weight: 700;
+    margin: 0 5px; 
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+/* Specific styling for the back link */
+.nav a:last-child {
+    display: block;
+    margin-top: 15px;
+    font-weight: 400;
+    color: #063361;
+}
+
+
+  </style>
+</head>
+<body>
+    <script src="navigation.js"></script>
+  <div class="container">
+    <h2>Create Your MealBridge Account</h2>
+    <form>
+      <div class="input-group">
+        <label>Name</label>
+        <input type="text" placeholder="Your name" required />
+      </div>
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" placeholder="you@example.com" required />
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" placeholder="Min 6 chars, uppercase & lowercase" required />
+      </div>
+      <button class="btn">Sign Up</button>
+    </form>
+    <div class="nav">
+      <p>Already have an account? <a href="login.html">Sign In</a></p>
+      <a href="omg.html">← Back to Home</a>
+    </div>
+  </div>
+<script>
+  document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nameInput = document.querySelector('input[type="text"]').value;
+    const emailInput = document.querySelector('input[type="email"]').value;
+
+    localStorage.setItem('userName', nameInput);
+    localStorage.setItem('userEmail', emailInput);
+    localStorage.setItem('isLoggedIn', 'true');
+
+    window.location.href = 'omg.html'; 
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Donation Successful — PlateShare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-primary: #006d77;
+      --brand-secondary: #83c5be;
+      --brand-action: #e29578;
+      --success: #2a9d8f;
+      --text-dark: #2f3e46;
+      --text-light: #6d6d6d;
+    }
+
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background-color: #f0f4f8;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(131, 197, 190, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(226, 149, 120, 0.1) 0px, transparent 50%);
+      margin: 0; padding: 20px; color: var(--text-dark); min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .success-card {
+      max-width: 500px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 50px 40px;
+      border-radius: 30px;
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Success Animation */
+    .checkmark-wrapper {
+      width: 80px; height: 80px;
+      background: var(--success);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 10px 20px rgba(42, 157, 143, 0.2);
+      animation: scaleUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .checkmark-wrapper svg {
+      width: 40px; height: 40px; color: white;
+      stroke-dasharray: 48; stroke-dashoffset: 48;
+      animation: drawLine 0.6s 0.3s forwards;
+    }
+
+    @keyframes scaleUp { from { transform: scale(0); } to { transform: scale(1); } }
+    @keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+    h2 { color: var(--brand-primary); font-size: 28px; margin: 0 0 12px; font-weight: 800; }
+    p { color: var(--text-light); line-height: 1.6; margin-bottom: 30px; }
+
+    .next-steps {
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: left;
+      margin-bottom: 30px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .step {
+      display: flex; gap: 15px; margin-bottom: 15px; align-items: flex-start;
+    }
+    .step:last-child { margin-bottom: 0; }
+    .step-icon {
+      background: var(--brand-accent);
+      color: var(--brand-action);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 12px; flex-shrink: 0;
+    }
+    .step-text { font-size: 14px; color: var(--text-dark); font-weight: 500; }
+
+    .btn-group { display: flex; flex-direction: column; gap: 12px; }
+    .btn-primary { 
+      background: var(--brand-primary); color: white; padding: 16px; 
+      border-radius: 12px; text-decoration: none; font-weight: 700; transition: 0.3s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0, 109, 119, 0.2); }
+    
+    .btn-secondary { 
+      background: transparent; color: var(--text-light); padding: 12px; 
+      border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 14px;
+    }
+    .btn-secondary:hover { color: var(--brand-primary); }
+  </style>
+</head>
+<body>
+
+  <div class="success-card">
+    <div class="checkmark-wrapper">
+      <svg fill="none" stroke="currentColor" stroke-width="4" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+      </svg>
+    </div>
+
+    <h2>Donation Published!</h2>
+    <p>Your surplus food has been added to the <strong>PlateShare</strong> map. Local NGOs and volunteers have been notified.</p>
+
+    <div class="next-steps">
+      <div class="step">
+        <div class="step-icon">1</div>
+        <div class="step-text">Stay close to your phone; a volunteer will call to coordinate pickup.</div>
+      </div>
+      <div class="step">
+        <div class="step-icon">2</div>
+        <div class="step-text">Keep the food in a cool, safe place until the volunteer arrives.</div>
+      </div>
+      <div class="step">
+        <div class="step-icon">3</div>
+        <div class="step-text">Mark the donation as "Claimed" once it has been picked up.</div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <a href="food.html" class="btn-primary">View My Donations</a>
+      <a href="omg.html" class="btn-secondary">Return to Home</a>
+    </div>
+  </div>
+
+</body>
+</html>
