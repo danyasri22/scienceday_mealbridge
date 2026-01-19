@@ -10,22 +10,17 @@ Large amounts of cooked food are wasted daily due to the absence of a real-time 
 This project provides a digital solution where donors can post surplus food details such as quantity, pickup address, and pickup time. Receivers can browse available food and claim it. The platform tracks the status of each food item to ensure timely and safe distribution.
 
 # Key features
-
-## Donor food listing with quantity, location, and expiry time
-
-## Receiver food claiming system
-
-## Food status tracking (Available, Claimed)
-
-## Simple admin monitoring interface
-
-## Responsive user interface
+ Donor food listing with quantity, location, and expiry time
+ Receiver food claiming system
+ Food status tracking (Available, Claimed)
+ Simple admin monitoring interface
+ Responsive user interface
 
 
 # Technology Stack
-## Frontend: HTML, CSS, JavaScript
-## Data Storage: Browser LocalStorage 
-## Tools: Git, GitHub, VS Code
+ Frontend: HTML, CSS, JavaScript
+ Data Storage: Browser LocalStorage 
+ Tools: Git, GitHub, VS Code
 
 # Application Flow
 1. Donor submits food details through the donation form.
